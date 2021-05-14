@@ -1,3 +1,6 @@
+# basic-react-app
+A basic React app created using the create-react-app CLI
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
