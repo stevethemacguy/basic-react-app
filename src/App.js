@@ -25,10 +25,20 @@ class App extends React.Component {
 }
 
 class Form extends React.Component {
+  // Creates a React Ref object, which is a reference to the actual input element in the DOM
+  userNameInput = React.createRef();
+
+  handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the page from refreshing when the form is submitted
+    // The ref object's value (which is the actual input element) is stored at .current.
+    // Using .value just displays the value of the input element
+    alert(this.userNameInput.current.value);
+  };
+
   render() {
     return (
-      <form>
-        <input placeholder={`Type to Search`}/>
+      <form onSubmit={this.handleSubmit}>
+        <input ref={this.userNameInput} placeholder={`Search for GitHub Username`} required/>
         <button>Add New Card</button>
       </form>
     );

@@ -27,6 +27,10 @@ form {
    justify-content: center;
 }
 
+input {
+   width: 180px;
+}
+
 .header {
    text-align: center;
    font-size: 1.5rem;
