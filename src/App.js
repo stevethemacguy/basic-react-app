@@ -12,8 +12,22 @@ const testData = [
 class App extends React.Component {
   render() {
     return (
-      <div className="header">{this.props.title}</div>,
-      <CardList/>
+      <>
+        <div className="header">{this.props.title}</div>
+        <Form/>
+        <CardList/>
+      </>
+    );
+  }
+}
+
+class Form extends React.Component {
+  render() {
+    return (
+      <form>
+        <input placeholder={`Type to Search`}/>
+        <button>Add New Card</button>
+      </form>
     );
   }
 }
