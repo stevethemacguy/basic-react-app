@@ -19,8 +19,8 @@ class App extends React.Component {
 }
 
 class Card extends React.Component {
-  render() {
-    const profile = testData[0];
+  render(props) {
+    const profile = this.props;
     return (
       <div className="github-profile">
         <img alt="" src={profile.avatar_url} />
@@ -33,13 +33,14 @@ class Card extends React.Component {
   }
 }
 
-const CardList = (props) => {
+const CardList = () => {
   return (
     <div className="card-list">
-      <Card/>
-      <Card/>
+      {/* The spread operator makes it so all properties of the testData object become React props for the Card component */}
+      <Card {...testData[0]}/>
+      <Card {...testData[1]}/>
     </div>
   );
-}
+};
 
 export default App;
