@@ -20,6 +20,7 @@ class App extends React.Component {
 
 class Card extends React.Component {
   render(props) {
+    // Each Card Component instance has it's own 'this' reference, each card in the CardList can uses separate profile data.
     const profile = this.props;
     return (
       <div className="github-profile">
@@ -36,9 +37,10 @@ class Card extends React.Component {
 const CardList = () => {
   return (
     <div className="card-list">
-      {/* The spread operator makes it so all properties of the testData object become React props for the Card component */}
-      <Card {...testData[0]}/>
-      <Card {...testData[1]}/>
+      {/* The .map operator maps each object in the testData array to a 'profile' variable, and then returns an array of Cards.*/}
+      {/* Using ...profile makes it so all properties of the profile object (at testData[index]) become React props available to the Card component */}
+      {testData.map(profile => <Card {...profile}/>)}
+      {/* The result is an array of Cards, like this: [<Card/>,<Card/>,<Card/>] */}
     </div>
   );
 };
