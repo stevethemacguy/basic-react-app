@@ -1,16 +1,17 @@
-import './app.css';
-import React from 'react';
+import './App.css';
+import React, {useState} from 'react';
 import axios from 'axios';
 
-class App extends React.Component {
-  state = {
-    // The state MUST be an object in a class component. It can't be a string or normal like with a functional component.
+const App = (props) => {
+  // ProfileDataState is set to the starting state (i.e. an object with a 'profileData' array).
+  // setProfileData is the updater function, which is used to update the ProfileDataState.
+  const [profileDataState, setProfileData] = useState({
     profileData: []
-  };
+  });
 
-  addNewProfile = (newProfileData) => {
-    // SetState can either take an object or a function. The returned value is the new state
-    this.setState(previousState => ({
+  const addNewProfile = (newProfileData) => {
+    // Setting the state can be do with either an object or a function (a string or number works too). The returned value is the new state.
+    setProfileData(previousState => ({
       // Creates a new array. The existing array is shallow copied using the spread operator, and then the new data object is appended onto the array.
       profileData: [...previousState.profileData, newProfileData]
       // If you don't like the spread operator, you can use Array.concat instead. This also works. However, you CAN'T use
@@ -19,43 +20,51 @@ class App extends React.Component {
     }))
   };
 
-  render() {
-    return (
-      <>
-        <div className="header">{this.props.title}</div>
-        {/* Pass the function to the Child Component as a prop. This allows the child to update the data in the 'parent's' state*/}
-        <Form onSubmitFunction={this.addNewProfile}/>
-        <CardList profiles={this.state.profileData}/>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <div className="header">{props.title}</div>
+      {/* Pass the function to the Child Component as a prop. This allows the child to update the data in the 'parent's' state*/}
+      <Form onSubmitFunction={addNewProfile}/>
+      <CardList profiles={profileDataState.profileData}/>
+    </>
+  );
+};
 
-class Form extends React.Component {
-  state = {
-    userName: ''
-  }
+const Form = (props) => {
+  const [userName, setUserName] = useState('');
 
-  handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent the page from refreshing when the form is submitted
-    axios.get(`https://api.github.com/users/${this.state.userName}`)
-    .then((response) => {
-      this.props.onSubmitFunction(response.data);
-      // Optional. Clears the user's input text once they've added the card.
-      this.setState({userName: ''});
-    })
+    const response = await axios.get(`https://api.github.com/users/${userName}`);
+    props.onSubmitFunction(response.data);
+    // Optional. Clears the user's input text once they've added the card.
+    setUserName('');
   };
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <input placeholder={`Enter GitHub Username`}
-          value={this.state.userName}
-          onChange={event => this.setState({userName: event.target.value})}/>
-        <button>Add New Card</button>
-      </form>
-    );
-  }
+  // Alternatively, you can use the traditional .then() instead of async/await
+  // const handleSubmit = (event) => {
+  //   event.preventDefault(); // Prevent the page from refreshing when the form is submitted
+  //   axios.get(`https://api.github.com/users/${userName}`)
+  //   .then((response) => {
+  //     props.onSubmitFunction(response.data);
+  //     // Optional. Clears the user's input text once they've added the card.
+  //     setUserName('');
+  //   })
+  // };
+
+  const handleOnChange = (event) => {
+    // Note: You don't have to use an object or function when updating the state. You can also just use the value.
+    setUserName(event.target.value);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input placeholder={`Enter GitHub Username`}
+        value={userName}
+        onChange={handleOnChange}/>
+      <button>Add New Card</button>
+    </form>
+  );
 }
 
 const CardList = (props) => {
@@ -71,20 +80,17 @@ const CardList = (props) => {
   );
 };
 
-class Card extends React.Component {
-  render(props) {
-    // Each Card Component instance has it's own 'this' reference, each card in the CardList can uses separate profile data.
-    const profile = this.props;
-    return (
-      <div className="github-profile">
-        <img alt="" src={profile.avatar_url} />
-        <div className="info">
-          <div className="name">{profile.name}</div>
-          <div className="company">{profile.company}</div>
-        </div>
+const Card = (props) =>  {
+  const profile = props;
+  return (
+    <div className="github-profile">
+      <img alt="" src={profile.avatar_url} />
+      <div className="info">
+        <div className="name">{profile.name}</div>
+        <div className="company">{profile.company}</div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default App;
