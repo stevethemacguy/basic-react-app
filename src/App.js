@@ -1,22 +1,38 @@
 import './app.css';
+import React from 'react';
 
-const App = ({title}) => (
-  <div className="header">{title}</div>,
-  <CardList/>
-);
+class App extends React.Component {
 
-const Card = () => {
-  return (
-    <div className="card">Hey</div>
-  );
-};
+  constructor() {
+    super();
+    this.title = 'Yo';
+  }
 
-const CardList = () => {
-  return (
-    <div className="card-list">
-      <Card/>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div className="header">{this.props.title}</div>,
+      <CardList/>
+    )
+  }
+}
+
+class Card extends React.Component {
+  render() {
+    return (
+      <div className="github-profile">One Profile</div>
+    );
+  }
+}
+
+class CardList extends React.Component {
+  render() {
+    return (
+      <div className="card-list">
+        <Card/>
+        <Card/>
+      </div>
+    );
+  }
+}
 
 export default App;
