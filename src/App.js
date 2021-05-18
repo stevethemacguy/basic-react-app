@@ -10,12 +10,20 @@ const testData = [
 
 
 class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      profileData: testData
+    };
+  }
+
   render() {
     return (
       <>
         <div className="header">{this.props.title}</div>
         <Form/>
-        <CardList/>
+        <CardList profiles={this.state.profileData}/>
       </>
     );
   }
@@ -32,6 +40,17 @@ class Form extends React.Component {
   }
 }
 
+const CardList = (props) => {
+  return (
+    <div className="card-list">
+      {/* The .map operator maps each object in the testData array to a 'profile' variable, and then returns an array of Cards.*/}
+      {/* Using ...profile makes it so all properties of the profile object (at testData[index]) become React props available to the Card component */}
+      {props.profiles.map(profile => <Card {...profile}/>)}
+      {/* The result is an array of Cards, like this: [<Card/>,<Card/>,<Card/>] */}
+    </div>
+  );
+};
+
 class Card extends React.Component {
   render(props) {
     // Each Card Component instance has it's own 'this' reference, each card in the CardList can uses separate profile data.
@@ -47,16 +66,5 @@ class Card extends React.Component {
     );
   }
 }
-
-const CardList = () => {
-  return (
-    <div className="card-list">
-      {/* The .map operator maps each object in the testData array to a 'profile' variable, and then returns an array of Cards.*/}
-      {/* Using ...profile makes it so all properties of the profile object (at testData[index]) become React props available to the Card component */}
-      {testData.map(profile => <Card {...profile}/>)}
-      {/* The result is an array of Cards, like this: [<Card/>,<Card/>,<Card/>] */}
-    </div>
-  );
-};
 
 export default App;
