@@ -12,14 +12,20 @@ class App extends React.Component {
     return (
       <div className="header">{this.props.title}</div>,
       <CardList/>
-    )
+    );
   }
 }
 
 class Card extends React.Component {
   render() {
     return (
-      <div className="github-profile">One Profile</div>
+      <div className="github-profile">
+        <img alt="" src="https://placehold.it/75" />
+        <div className="info">
+          <div className="name">Name here...</div>
+          <div className="company">Company here...</div>
+        </div>
+      </div>
     );
   }
 }
