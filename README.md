@@ -1,5 +1,6 @@
 # basic-react-app
-A basic React app created using the create-react-app CLI
+A basic app created with Create-React-App. Enter a GitHub username to display its associated profile data.
+Note: This is an extremely basic playground. It's not meant to be well-structured app or follow any best practices.
 
 # Getting Started with Create React App
 
